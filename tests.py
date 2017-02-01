@@ -28,6 +28,21 @@ class TestGame(TestChessAPI):
     pass
 
 
+class TestPiece(TestChessAPI):
+    def setUp(self):
+        super(TestPiece, self).setUp()
+        self.piece = self.chessapi.Piece()
+
+    def test_can_make_move(self):
+        with self.assertRaises(TypeError):
+            self.piece.can_make_move(7)
+        with self.assertRaises(TypeError):
+            self.piece.can_make_move([6, 9])
+        with self.assertRaises(TypeError):
+            self.piece.can_make_move("82")
+        with self.assertRaises(ValueError):
+            self.piece.can_make_move(self.chessapi.DiscreteVector(1, 2))
+
 class TestDiscreteVector(TestChessAPI):
     def test_initialisation(self):
         with self.assertRaises(TypeError):

@@ -1,5 +1,26 @@
+BOARD_WIDTH = 8
+BOARD_HEIGHT = 8
+COLOURS = ['white', 'black']
+
+
 class Game:
     pass
+
+
+class Piece:
+    _all_moves = []
+
+    def can_make_move(self, move):
+        if not isinstance(move, DiscreteVector):
+            raise TypeError('move must be a DiscreteVector')
+        if move not in self._all_moves:
+            raise ValueError('this piece cannot make that move')
+
+    def get_valid_moves(self):
+        valid_moves = []
+        for move in self._all_moves:
+            if self.can_make_move(move):
+                valid_moves.append(move)
 
 
 class DiscreteVector:
