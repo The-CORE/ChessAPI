@@ -1,1 +1,1 @@
-from ChessAPI import *
+from chessapi import *
