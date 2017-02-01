@@ -4,11 +4,11 @@ import unittest
 class TestChessAPI(unittest.TestCase):
     def setUp(self):
         '''
-        The setup required for every test of ChessAPI
+        The setup required for every test of chessapi
         '''
-        self.assertTrue(self._can_import(), 'Cannot import ChessAPI')
-        import ChessAPI
-        self.ChessAPI = ChessAPI
+        self.assertTrue(self._can_import(), 'Cannot import chessapi')
+        import chessapi
+        self.chessapi = chessapi
 
     def _can_import(self):
         '''
@@ -16,7 +16,7 @@ class TestChessAPI(unittest.TestCase):
         '''
         can_import = False
         try:
-            import ChessAPI
+            import chessapi
         except ImportError:
             pass
         else:
@@ -31,26 +31,26 @@ class TestGame(TestChessAPI):
 class TestDiscreteVector(TestChessAPI):
     def test_initialisation(self):
         with self.assertRaises(TypeError):
-            self.assertRaises(self.ChessAPI.DiscreteVector(0.452, 5), TypeError)
+            self.chessapi.DiscreteVector(0.452, 5), TypeError
         with self.assertRaises(TypeError):
-            self.assertRaises(self.ChessAPI.DiscreteVector(0, 'asd'), TypeError)
+            self.chessapi.DiscreteVector(0, 'asd'), TypeError
 
     def test_addition(self):
-        a = self.ChessAPI.DiscreteVector(1, 2)
-        b = self.ChessAPI.DiscreteVector(3, -5)
+        a = self.chessapi.DiscreteVector(1, 2)
+        b = self.chessapi.DiscreteVector(3, -5)
         c = a + b
         self.assertEqual(c.x, 4)
         self.assertEqual(c.y, -3)
 
     def test_subtraction(self):
-        a = self.ChessAPI.DiscreteVector(-23, 17)
-        b = self.ChessAPI.DiscreteVector(-8, 12)
+        a = self.chessapi.DiscreteVector(-23, 17)
+        b = self.chessapi.DiscreteVector(-8, 12)
         c = a - b
         self.assertEqual(c.x, -15)
         self.assertEqual(c.y, 5)
 
     def test_addition_validation(self):
-        a = self.ChessAPI.DiscreteVector(1, 2)
+        a = self.chessapi.DiscreteVector(1, 2)
         with self.assertRaises(TypeError):
             b = a + 5
         with self.assertRaises(TypeError):
@@ -59,7 +59,7 @@ class TestDiscreteVector(TestChessAPI):
             b = a + 0.2342345667
 
     def test_subtraction_validation(self):
-        a = self.ChessAPI.DiscreteVector(8, -2)
+        a = self.chessapi.DiscreteVector(8, -2)
         with self.assertRaises(TypeError):
             b = a - 3
         with self.assertRaises(TypeError):
@@ -68,7 +68,7 @@ class TestDiscreteVector(TestChessAPI):
             b = a - 2334.678467
 
     def test_multiplication(self):
-        a = self.ChessAPI.DiscreteVector(-6, 7)
+        a = self.chessapi.DiscreteVector(-6, 7)
         b = a * -9
         self.assertEqual(b.x, 54)
         self.assertEqual(b.y, -63)
@@ -77,7 +77,7 @@ class TestDiscreteVector(TestChessAPI):
         self.assertEqual(c.y, -126)
 
     def test_multiplication_validation(self):
-        a = self.ChessAPI.DiscreteVector(16, -42)
+        a = self.chessapi.DiscreteVector(16, -42)
         with self.assertRaises(TypeError):
             b = a * a
         with self.assertRaises(TypeError):
@@ -86,13 +86,13 @@ class TestDiscreteVector(TestChessAPI):
             b = a * 2334.678467
 
     def test_division(self):
-        a = self.ChessAPI.DiscreteVector(-6, 7)
+        a = self.chessapi.DiscreteVector(-6, 7)
         b = a / 2
         self.assertEqual(b.x, -3)
         self.assertEqual(b.y, 4)
 
     def test_division_validation(self):
-        a = self.ChessAPI.DiscreteVector(3, -2)
+        a = self.chessapi.DiscreteVector(3, -2)
         with self.assertRaises(TypeError):
             b = a / a
         with self.assertRaises(TypeError):
