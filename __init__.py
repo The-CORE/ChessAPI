@@ -1,1 +1,1 @@
-from chessapi import *
+from .chessapi import *
