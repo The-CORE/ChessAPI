@@ -10,17 +10,55 @@ class Game:
 class Piece:
     _all_moves = []
 
+    def __init__(self, position, colour):
+        if not isinstance(position, DiscreteVector):
+            raise TypeError('position must be a DiscreteVector')
+        if not colour in COLOURS:
+            raise ValueError('colour must be in {}'.format(str(COLOURS)))
+        self.position = position
+        self.colour = colour
+
     def can_make_move(self, move):
         if not isinstance(move, DiscreteVector):
             raise TypeError('move must be a DiscreteVector')
-        if move not in self._all_moves:
-            raise ValueError('this piece cannot make that move')
+        final_position = self.position + move
+        if (
+                move not in self._all_moves
+                or not 0 <= final_position.x <= BOARD_WIDTH
+                or not 0 <= final_position.y <= BOARD_HEIGHT
+        ):
+            return False
+        return True
 
     def get_valid_moves(self):
         valid_moves = []
         for move in self._all_moves:
             if self.can_make_move(move):
                 valid_moves.append(move)
+
+
+class Pawn(Piece):
+    pass
+
+
+class Rook(Piece):
+    pass
+
+
+class Knight(Piece):
+    pass
+
+
+class Bishop(Piece):
+    pass
+
+
+class Queen(Piece):
+    pass
+
+
+class King(Piece):
+    pass
 
 
 class DiscreteVector:
@@ -61,9 +99,9 @@ class DiscreteVector:
 
     def __truediv__(self, object_to_divide_self_by):
         '''
-        Returns the DiscreteVector divided by the number given, but does round (
-        using the python round function (i.e. to the nearest even number)) the
-        result, to keep x and y as integers.
+        Returns the DiscreteVector divided by the number given, but rounds the
+        result (using the python round function (i.e. to the nearest even
+        number)) the result, to keep x and y as integers.
         '''
         if not isinstance(object_to_divide_self_by, int):
             return NotImplemented
