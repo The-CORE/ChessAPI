@@ -45,4 +45,7 @@ class DiscreteVector:
         return DiscreteVector(
             round(self.x / object_to_divide_self_by),
             round(self.y / object_to_divide_self_by)
-)
+        )
+
+    def __repr__(self):
+        return 'DiscreteVector({}, {})'.format(self.x, self.y)
