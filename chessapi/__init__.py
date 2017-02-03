@@ -1,3 +1,6 @@
+from .discrete_vector import DiscreteVector
+
+
 BOARD_WIDTH = 8
 BOARD_HEIGHT = 8
 COLOURS = ['white', 'black']
@@ -38,74 +41,66 @@ class Piece:
 
 
 class Pawn(Piece):
-    pass
+    def __init__(self, position, colour):
+        super(Pawn, self).__init__(position, colour)
+        if colour == 'white':
+            self._all_moves = [
+                DiscreteVector(0, 1),
+                DiscreteVector(0, 2),
+                DiscreteVector(1, 1),
+                DiscreteVector(-1, 1)
+            ]
+        elif colour == 'black':
+            self._all_moves = [
+                DiscreteVector(0, -1),
+                DiscreteVector(0, -2),
+                DiscreteVector(1, -1),
+                DiscreteVector(-1, -1)
+            ]
 
 
 class Rook(Piece):
-    pass
+    _all_moves = []
+    for i in range(-7, 8):
+        if i != 0:
+            _all_moves.append(DiscreteVector(0, i))
+            _all_moves.append(DiscreteVector(i, 0))
 
 
 class Knight(Piece):
-    pass
+    _all_moves = [
+        DiscreteVector(-1, 2),
+        DiscreteVector(1, 2),
+        DiscreteVector(2, 1),
+        DiscreteVector(2, -1),
+        DiscreteVector(1, -2),
+        DiscreteVector(-1, -2),
+        DiscreteVector(-2, -1),
+        DiscreteVector(-2, 1)
+    ]
 
 
 class Bishop(Piece):
-    pass
+    _all_moves = []
+    for i in range(1, 8):
+        _all_moves.append(DiscreteVector(i, i))
+        _all_moves.append(DiscreteVector(-i, i))
+        _all_moves.append(DiscreteVector(-i, -i))
+        _all_moves.append(DiscreteVector(i, -i))
 
 
 class Queen(Piece):
-    pass
+    _all_moves = Bishop._all_moves + Rook._all_moves
 
 
 class King(Piece):
-    pass
-
-
-class DiscreteVector:
-    def __init__(self, x, y):
-        if not isinstance(x, int):
-            raise TypeError('x must be an int')
-        if not isinstance(y, int):
-            raise TypeError('y must be an int')
-        self.x = x
-        self.y = y
-
-    def __add__(self, object_to_add_to):
-        if not isinstance(object_to_add_to, DiscreteVector):
-            return NotImplemented
-        return DiscreteVector(
-            self.x + object_to_add_to.x,
-            self.y + object_to_add_to.y
-        )
-
-    def __sub__(self, object_to_subtract_from_self):
-        if not isinstance(object_to_subtract_from_self, DiscreteVector):
-            return NotImplemented
-        return DiscreteVector(
-            self.x - object_to_subtract_from_self.x,
-            self.y - object_to_subtract_from_self.y
-        )
-
-    def __mul__(self, object_to_multiply_self_by):
-        if not isinstance(object_to_multiply_self_by, int):
-            return NotImplemented
-        return DiscreteVector(
-            self.x * object_to_multiply_self_by,
-            self.y * object_to_multiply_self_by
-        )
-
-    def __rmul__(self, object_to_multiply_self_by):
-        return self.__mul__(object_to_multiply_self_by)
-
-    def __truediv__(self, object_to_divide_self_by):
-        '''
-        Returns the DiscreteVector divided by the number given, but rounds the
-        result (using the python round function (i.e. to the nearest even
-        number)) the result, to keep x and y as integers.
-        '''
-        if not isinstance(object_to_divide_self_by, int):
-            return NotImplemented
-        return DiscreteVector(
-            round(self.x / object_to_divide_self_by),
-            round(self.y / object_to_divide_self_by)
-)
+    _all_moves = [
+        DiscreteVector(-1, 1),
+        DiscreteVector(0, 1),
+        DiscreteVector(1, 1),
+        DiscreteVector(1, 0),
+        DiscreteVector(1, -1),
+        DiscreteVector(0, -1),
+        DiscreteVector(-1, -1),
+        DiscreteVector(-1, 0),
+    ]

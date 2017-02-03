@@ -6,12 +6,11 @@ class TestGame(unittest.TestCase):
     pass
 
 
-class TestPiece(unittest.TestCase):
+class TestPieces(unittest.TestCase):
     def setUp(self):
-        super(TestPiece, self).setUp()
         self.piece = chessapi.Piece(chessapi.DiscreteVector(0, 0), 'white')
 
-    def test_can_make_move(self):
+    def test_base_can_make_move(self):
         with self.assertRaises(TypeError):
             self.piece.can_make_move(7)
         with self.assertRaises(TypeError):
@@ -21,6 +20,18 @@ class TestPiece(unittest.TestCase):
         self.assertFalse(
             self.piece.can_make_move(chessapi.DiscreteVector(1, 2))
         )
+
+    def test_initialisation(self):
+        """
+        Makes sure that basic initialisation of the pieces does not raise any
+        errors.
+        """
+        chessapi.Pawn(chessapi.DiscreteVector(0, 0), 'white')
+        chessapi.Rook(chessapi.DiscreteVector(0, 0), 'black')
+        chessapi.Knight(chessapi.DiscreteVector(0, 0), 'white')
+        chessapi.Bishop(chessapi.DiscreteVector(0, 0), 'black')
+        chessapi.Queen(chessapi.DiscreteVector(0, 0), 'white')
+        chessapi.King(chessapi.DiscreteVector(0, 0), 'black')
 
 class TestDiscreteVector(unittest.TestCase):
     def test_initialisation(self):
