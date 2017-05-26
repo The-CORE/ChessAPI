@@ -94,13 +94,10 @@ class Queen(Piece):
 
 
 class King(Piece):
-    _all_moves = [
-        DiscreteVector(-1, 1),
-        DiscreteVector(0, 1),
-        DiscreteVector(1, 1),
-        DiscreteVector(1, 0),
-        DiscreteVector(1, -1),
-        DiscreteVector(0, -1),
-        DiscreteVector(-1, -1),
-        DiscreteVector(-1, 0),
-    ]
+    _all_moves = []
+    # range(-1, 2) will run for -1, 0, and 1.
+    for x in range(-1, 2):
+        for y in range(-1, 2):
+            if x == 0 and y == 0:
+                continue
+            _all_moves.append(DiscreteVector(x, y))

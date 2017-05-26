@@ -3,7 +3,21 @@ import chessapi
 
 
 class TestGame(unittest.TestCase):
-    pass
+    def test_holistically(self):
+        player_1 = chessapi.Player('white')
+        player_2 = chessapi.Player('black')
+        game = chessapi.Game(player_1, player_2)
+        game.move(chessapi.DiscreteVector(3, 1), (3, 3), player_1)
+        game.move((1, 7), chessapi.DiscreteVector(2, 5), player_2)
+        self.assertEqual(type(game.item_at_position((2, 5))), chessapi.Knight)
+        self.assertIsNone(game.item_at_position(chessapi.DiscreteVector(3, 1)))
+
+    def test_player_validation(self):
+        game = chessapi.Game(chessapi.Player('white'), chessapi.Player('black'))
+        with self.assertRaises(chessapi.exceptions.PlayerNotInGameError):
+            game.move(
+                chessapi.DiscreteVector(3, 1), (3, 3), chessapi.Player('black')
+            )
 
 
 class TestPieces(unittest.TestCase):
