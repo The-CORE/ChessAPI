@@ -1,0 +1,5 @@
+BOARD_WIDTH = 8
+BOARD_HEIGHT = 8
+WHITE = 'white'
+BLACK = 'black'
+COLOURS = [WHITE, BLACK]

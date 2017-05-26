@@ -9,7 +9,10 @@ class TestGame(unittest.TestCase):
         game = chessapi.Game(player_1, player_2)
         game.move(chessapi.DiscreteVector(3, 1), (3, 3), player_1)
         game.move((1, 7), chessapi.DiscreteVector(2, 5), player_2)
-        self.assertEqual(type(game.peice_at_position((2, 5))), chessapi.Knight)
+        self.assertEqual(
+            type(game.peice_at_position((2, 5))),
+            chessapi.game.Knight
+        )
         self.assertIsNone(game.peice_at_position(chessapi.DiscreteVector(3, 1)))
 
     def test_player_validation(self):
@@ -17,7 +20,7 @@ class TestGame(unittest.TestCase):
             chessapi.Player(chessapi.WHITE),
             chessapi.Player(chessapi.BLACK)
         )
-        with self.assertRaises(chessapi.exceptions.PlayerNotInGameError):
+        with self.assertRaises(chessapi.PlayerNotInGameError):
             game.move(
                 chessapi.DiscreteVector(3, 1), (3, 3),
                 chessapi.Player(chessapi.BLACK)
@@ -26,19 +29,19 @@ class TestGame(unittest.TestCase):
     def test_player_turn_validation(self):
         player = chessapi.Player(chessapi.BLACK)
         game = chessapi.Game(chessapi.Player(chessapi.WHITE), player)
-        with self.assertRaises(chessapi.exceptions.NotPlayersTurnError):
+        with self.assertRaises(chessapi.NotPlayersTurnError):
             game.move((1, 7), chessapi.DiscreteVector(2, 5), player)
 
     def test_player_colour_validation(self):
         player_1 = chessapi.Player(chessapi.WHITE)
         player_2 = chessapi.Player(chessapi.BLACK)
-        with self.assertRaises(chessapi.exceptions.IncorrectPlayerColourError):
+        with self.assertRaises(chessapi.IncorrectPlayerColourError):
             game = chessapi.Game(player_2, player_1)
 
 
 class TestPieces(unittest.TestCase):
     def setUp(self):
-        self.piece = chessapi.Piece(
+        self.piece = chessapi.game.Piece(
             chessapi.DiscreteVector(0, 0),
             chessapi.WHITE,
             chessapi.Game(
@@ -63,7 +66,7 @@ class TestPieces(unittest.TestCase):
         Makes sure that basic initialisation of the pieces does not raise any
         errors.
         """
-        chessapi.Pawn(
+        chessapi.game.Pawn(
             chessapi.DiscreteVector(0, 0),
             chessapi.WHITE,
             chessapi.Game(
@@ -71,7 +74,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.Rook(
+        chessapi.game.Rook(
             chessapi.DiscreteVector(0, 0),
             chessapi.BLACK,
             chessapi.Game(
@@ -79,7 +82,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.Knight(
+        chessapi.game.Knight(
             chessapi.DiscreteVector(0, 0),
             chessapi.WHITE,
             chessapi.Game(
@@ -87,7 +90,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.Bishop(
+        chessapi.game.Bishop(
             chessapi.DiscreteVector(0, 0),
             chessapi.BLACK,
             chessapi.Game(
@@ -95,7 +98,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.Queen(
+        chessapi.game.Queen(
             chessapi.DiscreteVector(0, 0),
             chessapi.WHITE,
             chessapi.Game(
@@ -103,7 +106,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.King(
+        chessapi.game.King(
             chessapi.DiscreteVector(0, 0),
             chessapi.BLACK,
             chessapi.Game(
