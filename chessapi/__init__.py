@@ -27,8 +27,8 @@ class Piece:
         final_position = self.position + move
         if (
                 move not in self._all_moves
-                or not 0 <= final_position.x <= BOARD_WIDTH
-                or not 0 <= final_position.y <= BOARD_HEIGHT
+                or not 0 <= final_position.x < BOARD_WIDTH
+                or not 0 <= final_position.y < BOARD_HEIGHT
         ):
             return False
         return True
