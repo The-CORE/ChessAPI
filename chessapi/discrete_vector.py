@@ -35,16 +35,24 @@ class DiscreteVector:
         return self.__mul__(object_to_multiply_self_by)
 
     def __truediv__(self, object_to_divide_self_by):
-        '''
+        """
         Returns the DiscreteVector divided by the number given, but rounds the
         result (using the python round function (i.e. to the nearest even
         number)) the result, to keep x and y as integers.
-        '''
+        """
         if not isinstance(object_to_divide_self_by, int):
             return NotImplemented
         return DiscreteVector(
             round(self.x / object_to_divide_self_by),
             round(self.y / object_to_divide_self_by)
+        )
+
+    def __eq__(self, object_to_compare_to):
+        if not isinstance(object_to_compare_to, DiscreteVector):
+            return NotImplemented
+        return (
+            object_to_compare_to.x == self.x and
+            object_to_compare_to.y == self.y
         )
 
     def __repr__(self):

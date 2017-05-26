@@ -4,25 +4,48 @@ import chessapi
 
 class TestGame(unittest.TestCase):
     def test_holistically(self):
-        player_1 = chessapi.Player('white')
-        player_2 = chessapi.Player('black')
+        player_1 = chessapi.Player(chessapi.WHITE)
+        player_2 = chessapi.Player(chessapi.BLACK)
         game = chessapi.Game(player_1, player_2)
         game.move(chessapi.DiscreteVector(3, 1), (3, 3), player_1)
         game.move((1, 7), chessapi.DiscreteVector(2, 5), player_2)
-        self.assertEqual(type(game.item_at_position((2, 5))), chessapi.Knight)
-        self.assertIsNone(game.item_at_position(chessapi.DiscreteVector(3, 1)))
+        self.assertEqual(type(game.peice_at_position((2, 5))), chessapi.Knight)
+        self.assertIsNone(game.peice_at_position(chessapi.DiscreteVector(3, 1)))
 
     def test_player_validation(self):
-        game = chessapi.Game(chessapi.Player('white'), chessapi.Player('black'))
+        game = chessapi.Game(
+            chessapi.Player(chessapi.WHITE),
+            chessapi.Player(chessapi.BLACK)
+        )
         with self.assertRaises(chessapi.exceptions.PlayerNotInGameError):
             game.move(
-                chessapi.DiscreteVector(3, 1), (3, 3), chessapi.Player('black')
+                chessapi.DiscreteVector(3, 1), (3, 3),
+                chessapi.Player(chessapi.BLACK)
             )
+
+    def test_player_turn_validation(self):
+        player = chessapi.Player(chessapi.BLACK)
+        game = chessapi.Game(chessapi.Player(chessapi.WHITE), player)
+        with self.assertRaises(chessapi.exceptions.NotPlayersTurnError):
+            game.move((1, 7), chessapi.DiscreteVector(2, 5), player)
+
+    def test_player_colour_validation(self):
+        player_1 = chessapi.Player(chessapi.WHITE)
+        player_2 = chessapi.Player(chessapi.BLACK)
+        with self.assertRaises(chessapi.exceptions.IncorrectPlayerColourError):
+            game = chessapi.Game(player_2, player_1)
 
 
 class TestPieces(unittest.TestCase):
     def setUp(self):
-        self.piece = chessapi.Piece(chessapi.DiscreteVector(0, 0), 'white')
+        self.piece = chessapi.Piece(
+            chessapi.DiscreteVector(0, 0),
+            chessapi.WHITE,
+            chessapi.Game(
+                chessapi.Player(chessapi.WHITE),
+                chessapi.Player(chessapi.BLACK)
+            )
+        )
 
     def test_base_can_make_move(self):
         with self.assertRaises(TypeError):
@@ -40,12 +63,54 @@ class TestPieces(unittest.TestCase):
         Makes sure that basic initialisation of the pieces does not raise any
         errors.
         """
-        chessapi.Pawn(chessapi.DiscreteVector(0, 0), 'white')
-        chessapi.Rook(chessapi.DiscreteVector(0, 0), 'black')
-        chessapi.Knight(chessapi.DiscreteVector(0, 0), 'white')
-        chessapi.Bishop(chessapi.DiscreteVector(0, 0), 'black')
-        chessapi.Queen(chessapi.DiscreteVector(0, 0), 'white')
-        chessapi.King(chessapi.DiscreteVector(0, 0), 'black')
+        chessapi.Pawn(
+            chessapi.DiscreteVector(0, 0),
+            chessapi.WHITE,
+            chessapi.Game(
+                chessapi.Player(chessapi.WHITE),
+                chessapi.Player(chessapi.BLACK)
+            )
+        )
+        chessapi.Rook(
+            chessapi.DiscreteVector(0, 0),
+            chessapi.BLACK,
+            chessapi.Game(
+                chessapi.Player(chessapi.WHITE),
+                chessapi.Player(chessapi.BLACK)
+            )
+        )
+        chessapi.Knight(
+            chessapi.DiscreteVector(0, 0),
+            chessapi.WHITE,
+            chessapi.Game(
+                chessapi.Player(chessapi.WHITE),
+                chessapi.Player(chessapi.BLACK)
+            )
+        )
+        chessapi.Bishop(
+            chessapi.DiscreteVector(0, 0),
+            chessapi.BLACK,
+            chessapi.Game(
+                chessapi.Player(chessapi.WHITE),
+                chessapi.Player(chessapi.BLACK)
+            )
+        )
+        chessapi.Queen(
+            chessapi.DiscreteVector(0, 0),
+            chessapi.WHITE,
+            chessapi.Game(
+                chessapi.Player(chessapi.WHITE),
+                chessapi.Player(chessapi.BLACK)
+            )
+        )
+        chessapi.King(
+            chessapi.DiscreteVector(0, 0),
+            chessapi.BLACK,
+            chessapi.Game(
+                chessapi.Player(chessapi.WHITE),
+                chessapi.Player(chessapi.BLACK)
+            )
+        )
 
 class TestDiscreteVector(unittest.TestCase):
     def test_initialisation(self):
