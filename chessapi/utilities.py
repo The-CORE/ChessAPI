@@ -1,9 +1,15 @@
 from .discrete_vector import DiscreteVector
 
 
-def tuple_to_discrete_vector(value):
+def iterable_to_discrete_vector(value):
     """
-    If this recieves a tuple, it will return a DiscreteVector with x = tuple[0],
-    y = tuple[1]. But, if it recieves anything else, it will just return that.
+    If this recieves an iterable, it will return a DiscreteVector with x =
+    iterable[0], y = iterable[1]. But, if it recieves anything else, it will
+    just return that.
     """
-    return DiscreteVector(*value) if isinstance(value, tuple) else value
+    try:
+        return DiscreteVector(*value)
+    except TypeError:
+        # value wasn't iterable or didn't have two items in it.
+        pass
+    return value

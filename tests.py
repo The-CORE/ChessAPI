@@ -3,40 +3,94 @@ import chessapi
 
 
 class TestGame(unittest.TestCase):
+    def setUp(self):
+        self.player_1 = chessapi.Player(chessapi.WHITE)
+        self.player_2 = chessapi.Player(chessapi.BLACK)
+        self.game = chessapi.Game(self.player_1, self.player_2)
+
+
     def test_holistically(self):
-        player_1 = chessapi.Player(chessapi.WHITE)
-        player_2 = chessapi.Player(chessapi.BLACK)
-        game = chessapi.Game(player_1, player_2)
-        game.move(chessapi.DiscreteVector(3, 1), (3, 3), player_1)
-        game.move((1, 7), chessapi.DiscreteVector(2, 5), player_2)
+        self.game.reset_board()
+        self.game.move(chessapi.DiscreteVector(3, 1), (3, 3), self.player_1)
+        self.game.move((1, 7), chessapi.DiscreteVector(2, 5), self.player_2)
         self.assertEqual(
-            type(game.peice_at_position((2, 5))),
+            type(self.game.piece_at_position((2, 5))),
             chessapi.game.Knight
         )
-        self.assertIsNone(game.peice_at_position(chessapi.DiscreteVector(3, 1)))
+        self.assertIsNone(
+            self.game.piece_at_position(chessapi.DiscreteVector(3, 1))
+        )
 
     def test_player_validation(self):
-        game = chessapi.Game(
-            chessapi.Player(chessapi.WHITE),
-            chessapi.Player(chessapi.BLACK)
-        )
+        self.game.reset_board()
         with self.assertRaises(chessapi.PlayerNotInGameError):
-            game.move(
-                chessapi.DiscreteVector(3, 1), (3, 3),
+            self.game.move(
+                chessapi.DiscreteVector(3, 1),
+                (3, 3),
                 chessapi.Player(chessapi.BLACK)
             )
 
     def test_player_turn_validation(self):
-        player = chessapi.Player(chessapi.BLACK)
-        game = chessapi.Game(chessapi.Player(chessapi.WHITE), player)
+        self.game.reset_board()
         with self.assertRaises(chessapi.NotPlayersTurnError):
-            game.move((1, 7), chessapi.DiscreteVector(2, 5), player)
+            self.game.move((1, 7), chessapi.DiscreteVector(2, 5), self.player_2)
 
     def test_player_colour_validation(self):
         player_1 = chessapi.Player(chessapi.WHITE)
         player_2 = chessapi.Player(chessapi.BLACK)
         with self.assertRaises(chessapi.IncorrectPlayerColourError):
             game = chessapi.Game(player_2, player_1)
+
+    def test_moving_onto_own_pieces(self):
+        self.game.reset_board()
+        with self.assertRaises(chessapi.InvalidMoveError):
+            self.game.move((0, 0), (0, 1), self.player_1)
+
+    def test_castling_right(self):
+        self.game.reset_board()
+        # Clear the pieces in between the king and the castle.
+        self.game.set_piece_at_position((5, 0), None)
+        self.game.set_piece_at_position((6, 0), None)
+        # Attempt to castle.
+        self.game.move((4, 0), (6, 0), self.player_1)
+        # Assert that the castle has moved too.
+        self.assertEqual(
+            type(self.game.piece_at_position((5, 0))), chessapi.game.Rook
+        )
+
+    def test_castling_left(self):
+        self.game.reset_board()
+        # Clear the pieces in between the king and the castle.
+        self.game.set_piece_at_position((1, 0), None)
+        self.game.set_piece_at_position((2, 0), None)
+        self.game.set_piece_at_position((3, 0), None)
+        # Attempt to castle.
+        self.game.move((4, 0), (2, 0), self.player_1)
+        # Assert that the castle has moved too.
+        self.assertEqual(
+            type(self.game.piece_at_position((3, 0))), chessapi.game.Rook
+        )
+
+    def test_cant_castle_after_king_has_moved(self):
+        self.game.reset_board()
+        # Clear the necessary pieces.
+        self.game.set_piece_at_position((1, 0), None)
+        self.game.set_piece_at_position((2, 0), None)
+        self.game.set_piece_at_position((3, 0), None)
+        self.game.set_piece_at_position((5, 0), None)
+        # Move the king.
+        self.game.move((4, 0), (5, 0), self.player_1)
+        # Set it to be white's turn again.
+        self.game.colour_for_next_turn = chessapi.WHITE
+        # Assert that the king cannot castle.
+        with self.assertRaises(chessapi.InvalidMoveError):
+            self.game.move((5, 0), (3, 0), self.player_1)
+
+    def test_cant_move_over_own_pieces(self):
+        pass
+
+    def test_knight_can_move_over_own_pieces(self):
+        pass
 
 
 class TestPieces(unittest.TestCase):
@@ -48,17 +102,6 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.WHITE),
                 chessapi.Player(chessapi.BLACK)
             )
-        )
-
-    def test_base_can_make_move(self):
-        with self.assertRaises(TypeError):
-            self.piece.can_make_move(7)
-        with self.assertRaises(TypeError):
-            self.piece.can_make_move([6, 9])
-        with self.assertRaises(TypeError):
-            self.piece.can_make_move("82")
-        self.assertFalse(
-            self.piece.can_make_move(chessapi.DiscreteVector(1, 2))
         )
 
     def test_initialisation(self):
