@@ -1,4 +1,5 @@
 from .piece import Piece
+from .queen import Queen
 from ..constants import WHITE, BLACK
 from ..discrete_vector import DiscreteVector
 
@@ -37,3 +38,15 @@ class Pawn(Piece):
                     DiscreteVector(move_x_coordinate, move_y_coordinate)
                 )
         return valid_moves
+
+    def make_move(self, move):
+        move_is_valid = move in self.current_moves
+        super(Pawn, self).make_move(move)
+        other_side_y_coordinate = 7 if self.colour == WHITE else 0
+        if move_is_valid and self.position.y == other_side_y_coordinate:
+            # If the move was valid, and the pawn has just moved to the furthest
+            # side of the board...
+            self.game.set_piece_at_position(
+                self.position,
+                Queen(self.position, self.colour, self.game)
+            )
