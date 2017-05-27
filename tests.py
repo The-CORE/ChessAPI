@@ -102,10 +102,16 @@ class TestGame(unittest.TestCase):
         pass
 
     def test_pawn_can_take_diagonally(self):
-        pass
+        self.game.reset_board()
+        self.game.pieces.append(
+            chessapi.Pawn((0, 2), chessapi.BLACK, self.game)
+        )
+        self.game.move((1, 1), (0, 2), self.player_1)
 
     def test_pawn_cant_normally_move_diagonally(self):
-        pass
+        self.game.reset_board()
+        with self.assertRaises(chessapi.InvalidMoveError):
+            self.game.move((3, 1), (4, 2), self.player_1)
 
     def test_checkmate_validation(self):
         pass
@@ -114,6 +120,9 @@ class TestGame(unittest.TestCase):
         pass
 
     def test_cant_castle_after_having_been_in_check(self):
+        pass
+
+    def test_pawn_getting_to_the_end_becomes_a_queen(self):
         pass
 
 

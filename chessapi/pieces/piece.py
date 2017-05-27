@@ -9,7 +9,11 @@ class Piece:
     def __init__(self, position, colour, game):
         position = iterable_to_discrete_vector(position)
         if not isinstance(position, DiscreteVector):
-            raise TypeError('position must be a DiscreteVector')
+            print(position)
+            raise TypeError(
+                'position must be a DiscreteVector or an iterable containing '
+                'two integers'
+            )
         if not colour in COLOURS:
             raise ValueError('colour must be in {}'.format(str(COLOURS)))
         # Note, game is not validated because it makes imports difficult to do
@@ -40,7 +44,7 @@ class Piece:
             if not isinstance(move, DiscreteVector):
                 raise TypeError(
                     'move must be a DiscreteVector or an iterable with two '
-                    'items in it'
+                    'integers in it'
                 )
             final_position = self.position + move
             piece_to_take = self.game.piece_at_position(final_position)
