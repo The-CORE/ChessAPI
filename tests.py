@@ -92,10 +92,13 @@ class TestGame(unittest.TestCase):
     def test_knight_can_move_over_own_pieces(self):
         pass
 
+    def test_cant_move_into_check(self):
+        pass
+
 
 class TestPieces(unittest.TestCase):
     def setUp(self):
-        self.piece = chessapi.game.Piece(
+        self.piece = chessapi.Piece(
             chessapi.DiscreteVector(0, 0),
             chessapi.WHITE,
             chessapi.Game(
@@ -109,7 +112,7 @@ class TestPieces(unittest.TestCase):
         Makes sure that basic initialisation of the pieces does not raise any
         errors.
         """
-        chessapi.game.Pawn(
+        chessapi.Pawn(
             chessapi.DiscreteVector(0, 0),
             chessapi.WHITE,
             chessapi.Game(
@@ -117,7 +120,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.game.Rook(
+        chessapi.Rook(
             chessapi.DiscreteVector(0, 0),
             chessapi.BLACK,
             chessapi.Game(
@@ -125,7 +128,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.game.Knight(
+        chessapi.Knight(
             chessapi.DiscreteVector(0, 0),
             chessapi.WHITE,
             chessapi.Game(
@@ -133,7 +136,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.game.Bishop(
+        chessapi.Bishop(
             chessapi.DiscreteVector(0, 0),
             chessapi.BLACK,
             chessapi.Game(
@@ -141,7 +144,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.game.Queen(
+        chessapi.Queen(
             chessapi.DiscreteVector(0, 0),
             chessapi.WHITE,
             chessapi.Game(
@@ -149,7 +152,7 @@ class TestPieces(unittest.TestCase):
                 chessapi.Player(chessapi.BLACK)
             )
         )
-        chessapi.game.King(
+        chessapi.King(
             chessapi.DiscreteVector(0, 0),
             chessapi.BLACK,
             chessapi.Game(
