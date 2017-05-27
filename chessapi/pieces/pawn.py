@@ -23,3 +23,5 @@ class Pawn(Piece):
                 DiscreteVector(1, -1),
                 DiscreteVector(-1, -1)
             ]
+
+    symbol = 'P'

@@ -8,3 +8,4 @@ class Queen(Piece):
         return 'Queen({}, {}, {})'.format(self.position, self.colour, self.game)
 
     _base_moves = Bishop._base_moves + Rook._base_moves
+    symbol = 'Q'

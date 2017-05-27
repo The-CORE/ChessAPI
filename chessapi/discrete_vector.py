@@ -57,3 +57,6 @@ class DiscreteVector:
 
     def __repr__(self):
         return 'DiscreteVector({}, {})'.format(self.x, self.y)
+
+    def copy(self):
+        return DiscreteVector(self.x, self.y)

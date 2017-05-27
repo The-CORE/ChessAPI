@@ -19,3 +19,4 @@ class Rook(Piece):
         if displacement != 0:
             _base_moves.append(DiscreteVector(0, displacement))
             _base_moves.append(DiscreteVector(displacement, 0))
+    symbol = 'R'

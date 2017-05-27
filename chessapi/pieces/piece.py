@@ -28,9 +28,10 @@ class Piece:
         """
         This function returns a modified version of moves_to_validate that only
         contains valid moves. However, this is only insofar as the generic
-        restrictions that affect all pieces. If the ends on the board, and any
-        piece that is there has a different colour than this piece, this will
-        say it is vlaid, otherwise, it will say it is not.
+        restrictions that affect all pieces. If the ends on the board, any
+        piece that is there has a different colour than this piece and there
+        are no pieces in the way (or it is a knight), this will say it is valid,
+        otherwise, it will say it is not.
         """
         valid_moves = []
 
@@ -49,7 +50,8 @@ class Piece:
             if (
                     0 <= final_position.x < BOARD_WIDTH and
                     0 <= final_position.y < BOARD_HEIGHT and
-                    self.colour != colour_of_piece_to_take
+                    self.colour != colour_of_piece_to_take and
+                    self.can_move_along_path(move)
             ):
                 return True
             return False
@@ -64,8 +66,34 @@ class Piece:
         return valid_moves
 
     def get_specifically_valid_moves(self, moves_to_validate):
-        # Stub.
+        # If there are no specific restrictions or moves to add, just return
+        # what is passed.
         return moves_to_validate.copy()
+
+    def can_move_along_path(self, move):
+        # The knight overrides this, so, we don't need to account for it here.
+        move = iterable_to_discrete_vector(move)
+        if not isinstance(move, DiscreteVector):
+            raise TypeError(
+                'move must be a DiscreteVector or an iterable '
+                'with two items in it'
+            )
+
+        number_of_squares_moved_through = (
+            abs(move.x) if abs(move.x) > abs(move.y) else abs(move.y)
+        )
+        single_square_move = move / number_of_squares_moved_through
+        path_is_blocked = False
+        position_to_check = self.position.copy() + single_square_move
+        # We don't need to check if the square one square away is blocked.
+        while position_to_check != self.position + move:
+            if self.game.piece_at_position(position_to_check) is not None:
+                path_is_blocked = True
+                break
+            position_to_check += single_square_move
+
+        return not path_is_blocked
+
 
     def make_move(self, move):
         """

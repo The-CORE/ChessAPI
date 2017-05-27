@@ -86,11 +86,17 @@ class TestGame(unittest.TestCase):
         with self.assertRaises(chessapi.InvalidMoveError):
             self.game.move((5, 0), (3, 0), self.player_1)
 
-    def test_cant_move_over_own_pieces(self):
-        pass
+    def test_cant_move_over_pieces(self):
+        self.game.reset_board()
+        # Assert that the rook can't move straight over the pawns
+        with self.assertRaises(chessapi.InvalidMoveError):
+            self.game.move((0, 0), (0, 7), self.player_1)
 
-    def test_knight_can_move_over_own_pieces(self):
-        pass
+    def test_knight_can_move_over_pieces(self):
+        self.game.reset_board()
+        # Assert that the knight can jump right over the pawns in front of it
+        # (without erroring).
+        self.game.move((1, 0), (2, 2), self.player_1)
 
     def test_cant_move_into_check(self):
         pass
@@ -105,6 +111,9 @@ class TestGame(unittest.TestCase):
         pass
 
     def test_stalemate_validation(self):
+        pass
+
+    def test_cant_castle_after_having_been_in_check(self):
         pass
 
 

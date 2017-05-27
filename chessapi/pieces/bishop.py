@@ -15,3 +15,4 @@ class Bishop(Piece):
         _base_moves.append(DiscreteVector(-distance, distance))
         _base_moves.append(DiscreteVector(-distance, -distance))
         _base_moves.append(DiscreteVector(distance, -distance))
+    symbol = 'B'

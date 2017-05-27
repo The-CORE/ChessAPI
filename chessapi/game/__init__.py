@@ -25,3 +25,5 @@ class Game:
     from .set_piece_at_position import set_piece_at_position
     from .piece_at_position import piece_at_position
     from .move import move
+    from .display_ascii_board_representation import \
+        display_ascii_board_representation

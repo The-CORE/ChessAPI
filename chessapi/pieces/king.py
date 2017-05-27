@@ -57,3 +57,4 @@ class King(Piece):
             if x_coordinate == 0 and y_coordinate == 0:
                 continue
             _base_moves.append(DiscreteVector(x_coordinate, y_coordinate))
+    symbol = 'K'
