@@ -1,6 +1,6 @@
 from ..utilities import iterable_to_discrete_vector
 from ..discrete_vector import DiscreteVector
-from ..constants import COLOURS
+from ..constants import COLOURS, BOARD_WIDTH, BOARD_HEIGHT
 
 
 class Piece:
@@ -24,7 +24,7 @@ class Piece:
             self.get_specifically_valid_moves(self._base_moves)
         )
 
-    def get_standardly_valid_moves(moves_to_validate):
+    def get_standardly_valid_moves(self, moves_to_validate):
         """
         This function returns a modified version of moves_to_validate that only
         contains valid moves. However, this is only insofar as the generic
@@ -61,7 +61,20 @@ class Piece:
         except TypeError:
             raise TypeError('moves_to_validate must be iterable')
 
+        return valid_moves
+
+    def get_specifically_valid_moves(self, moves_to_validate):
+        # Stub.
+        return moves_to_validate.copy()
+
     def make_move(self, move):
+        """
+        This function just sets the pieces position to be its current position
+        plus the move. There is no validation here. Use current_moves to see a
+        list of the moves that chess allows to be made from this pieces
+        position. Using this function on non valid moves may provide unexpected
+        results.
+        """
         move = iterable_to_discrete_vector(move)
         if not isinstance(move, DiscreteVector):
             raise TypeError(

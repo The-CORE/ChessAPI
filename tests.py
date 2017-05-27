@@ -15,7 +15,7 @@ class TestGame(unittest.TestCase):
         self.game.move((1, 7), chessapi.DiscreteVector(2, 5), self.player_2)
         self.assertEqual(
             type(self.game.piece_at_position((2, 5))),
-            chessapi.game.Knight
+            chessapi.Knight
         )
         self.assertIsNone(
             self.game.piece_at_position(chessapi.DiscreteVector(3, 1))
@@ -55,7 +55,7 @@ class TestGame(unittest.TestCase):
         self.game.move((4, 0), (6, 0), self.player_1)
         # Assert that the castle has moved too.
         self.assertEqual(
-            type(self.game.piece_at_position((5, 0))), chessapi.game.Rook
+            type(self.game.piece_at_position((5, 0))), chessapi.Rook
         )
 
     def test_castling_left(self):
@@ -68,7 +68,7 @@ class TestGame(unittest.TestCase):
         self.game.move((4, 0), (2, 0), self.player_1)
         # Assert that the castle has moved too.
         self.assertEqual(
-            type(self.game.piece_at_position((3, 0))), chessapi.game.Rook
+            type(self.game.piece_at_position((3, 0))), chessapi.Rook
         )
 
     def test_cant_castle_after_king_has_moved(self):
@@ -93,6 +93,18 @@ class TestGame(unittest.TestCase):
         pass
 
     def test_cant_move_into_check(self):
+        pass
+
+    def test_pawn_can_take_diagonally(self):
+        pass
+
+    def test_pawn_cant_normally_move_diagonally(self):
+        pass
+
+    def test_checkmate_validation(self):
+        pass
+
+    def test_stalemate_validation(self):
         pass
 
 

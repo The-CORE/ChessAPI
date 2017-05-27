@@ -3,6 +3,7 @@ from ..player import Player
 from ..utilities import iterable_to_discrete_vector
 from ..exceptions import NoPieceAtPositionError, NotPlayersTurnError, \
     PlayerNotInGameError, InvalidMoveError
+from ..constants import WHITE, BLACK
 
 
 def move(self, position_to_move_from, position_to_move_to, player):
