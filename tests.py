@@ -158,7 +158,9 @@ class TestGame(unittest.TestCase):
         )
 
     def test_player_cannot_move_other_players_pieces(self):
-        pass
+        self.game.reset_board()
+        with self.assertRaises(chessapi.OtherPlayersPieceError):
+            self.game.move((0, 6), (0, 4), self.player_1)
 
 
 class TestPieces(unittest.TestCase):

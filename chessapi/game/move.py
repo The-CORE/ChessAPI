@@ -2,7 +2,7 @@ from ..discrete_vector import DiscreteVector
 from ..player import Player
 from ..utilities import iterable_to_discrete_vector
 from ..exceptions import NoPieceAtPositionError, NotPlayersTurnError, \
-    PlayerNotInGameError, InvalidMoveError
+    PlayerNotInGameError, InvalidMoveError, OtherPlayersPieceError
 from ..constants import WHITE, BLACK
 
 
@@ -40,6 +40,15 @@ def move(self, position_to_move_from, position_to_move_to, player):
     if player.colour != self.colour_for_next_turn:
         raise NotPlayersTurnError(
             'it is not the turn of player {}'.format(player)
+        )
+
+    # Check that the piece belongs to the player.
+    if player.colour != piece_to_move.colour:
+        raise OtherPlayersPieceError(
+            'player {} does not control {} and so cannot move it'.format(
+                player,
+                piece_to_move
+            )
         )
 
     move = position_to_move_to - position_to_move_from

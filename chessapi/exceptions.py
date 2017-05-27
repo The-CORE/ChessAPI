@@ -20,3 +20,7 @@ class NoPieceAtPositionError(ChessAPIError):
 
 class InvalidMoveError(ChessAPIError):
     pass
+
+
+class OtherPlayersPieceError(ChessAPIError):
+    pass
