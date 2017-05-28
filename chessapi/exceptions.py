@@ -24,3 +24,7 @@ class InvalidMoveError(ChessAPIError):
 
 class OtherPlayersPieceError(ChessAPIError):
     pass
+
+
+class TwoKingsWithSameColourOnBoardError(ChessAPIError):
+    pass

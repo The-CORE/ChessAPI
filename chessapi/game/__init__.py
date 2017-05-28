@@ -27,3 +27,4 @@ class Game:
     from .move import move
     from .display_ascii_board_representation import \
         display_ascii_board_representation
+    from .is_in_check import is_in_check
