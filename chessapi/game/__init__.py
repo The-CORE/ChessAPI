@@ -28,3 +28,6 @@ class Game:
     from .display_ascii_board_representation import \
         display_ascii_board_representation
     from .is_in_check import is_in_check
+    from .is_in_checkmate import is_in_checkmate
+    from .colour_has_no_moves import colour_has_no_moves
+    from .is_in_stalemate import is_in_stalemate

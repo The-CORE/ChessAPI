@@ -1,6 +1,6 @@
 from ..constants import COLOURS, WHITE, BLACK
 from ..pieces import King
-from ..exceptions import TwoKingsWithSameColourOnBoardError
+from ..exceptions import TwoKingsWithSameColourOnBoardError, NoKingOnBoard
 
 def is_in_check(self, colour):
     if not colour in COLOURS:
@@ -17,7 +17,7 @@ def is_in_check(self, colour):
                     )
                 )
             king = piece
-            
+
     if king is None:
         # This is no king of colour colour on the board.
         raise NoKingOnBoard(
@@ -31,7 +31,7 @@ def is_in_check(self, colour):
             # You can't be in check from your own pieces.
             continue
 
-        for move in piece.current_moves:
+        for move in piece.get_current_moves(ignore_check=True):
             final_position = piece.position + move
             if final_position == king.position:
                 # If it could take the king next turn, the king is in check.

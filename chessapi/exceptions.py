@@ -28,3 +28,7 @@ class OtherPlayersPieceError(ChessAPIError):
 
 class TwoKingsWithSameColourOnBoardError(ChessAPIError):
     pass
+
+
+class NoKingOnBoard(ChessAPIError):
+    pass

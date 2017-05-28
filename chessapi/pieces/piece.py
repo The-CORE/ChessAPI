@@ -1,6 +1,7 @@
+from copy import deepcopy
 from ..utilities import iterable_to_discrete_vector
 from ..discrete_vector import DiscreteVector
-from ..constants import COLOURS, BOARD_WIDTH, BOARD_HEIGHT
+from ..constants import COLOURS, WHITE, BOARD_WIDTH, BOARD_HEIGHT
 
 
 class Piece:
@@ -22,20 +23,24 @@ class Piece:
         self.colour = colour
         self.game = game
 
-    @property
-    def current_moves(self):
+    def get_current_moves(self, ignore_check=False):
+        # If ignore check is true this will not stop a player from moving into
+        # check. You probably don't want to set it to true.
         return self.get_standardly_valid_moves(
-            self.get_specifically_valid_moves(self._base_moves)
+            self.get_specifically_valid_moves(self._base_moves),
+            ignore_check
         )
 
-    def get_standardly_valid_moves(self, moves_to_validate):
+    def get_standardly_valid_moves(self, moves_to_validate, ignore_check=False):
         """
         This function returns a modified version of moves_to_validate that only
         contains valid moves. However, this is only insofar as the generic
         restrictions that affect all pieces. If the ends on the board, any
-        piece that is there has a different colour than this piece and there
-        are no pieces in the way (or it is a knight), this will say it is valid,
-        otherwise, it will say it is not.
+        piece that is there has a different colour than this piece there are no
+        pieces in the way (or it is a knight) and the move does put the player
+        making it in check, this will say it is valid, otherwise, it will say it
+        is not. If ignore check is true this will not stop a player from moving
+        into check. You probably don't want to set it to true.
         """
         valid_moves = []
 
@@ -55,7 +60,9 @@ class Piece:
                     0 <= final_position.x < BOARD_WIDTH and
                     0 <= final_position.y < BOARD_HEIGHT and
                     self.colour != colour_of_piece_to_take and
-                    self.can_move_along_path(move)
+                    self.can_move_along_path(move) and
+                    (ignore_check or not \
+                        self.move_puts_controlling_player_in_check(move))
             ):
                 return True
             return False
@@ -68,6 +75,19 @@ class Piece:
             raise TypeError('moves_to_validate must be iterable')
 
         return valid_moves
+
+    def move_puts_controlling_player_in_check(self, move):
+        final_position = self.position + move
+        game_copy = deepcopy(self.game)
+        # Set it to be your turn, so you can move the piece.
+        game_copy.colour_for_next_turn = self.colour
+
+        if self.colour == WHITE:
+            player = game_copy.white_player
+        else:
+            player = game_copy.black_player
+        game_copy.move(self.position, final_position, player, ignore_check=True)
+        return game_copy.is_in_check(self.colour)
 
     def get_specifically_valid_moves(self, moves_to_validate):
         # If there are no specific restrictions or moves to add, just return
@@ -102,8 +122,8 @@ class Piece:
     def make_move(self, move):
         """
         This function just sets the pieces position to be its current position
-        plus the move. There is no validation here. Use current_moves to see a
-        list of the moves that chess allows to be made from this pieces
+        plus the move. There is no validation here. Use get_current_moves to see
+        a list of the moves that chess allows to be made from this pieces
         position. Using this function on non valid moves may provide unexpected
         results.
         """

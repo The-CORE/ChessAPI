@@ -13,18 +13,17 @@ class King(Piece):
         self.has_moved_or_been_in_check = False
 
     def make_move(self, move):
-        move_is_valid = move in self.current_moves
         super(King, self).make_move(move)
         self.has_moved_or_been_in_check = True
-        # Providing the move was valid, if you have just castled, move the
-        # rook. (If the move was valid you know the castle is there).
-        if move_is_valid:
-            if move.x == -2:
-                self.game.piece_at_position((0, self.position.y)).position = \
-                    DiscreteVector(3, self.position.y)
-            if move.x == 2:
-                self.game.piece_at_position((7, self.position.y)).position = \
-                    DiscreteVector(5, self.position.y)
+        # If you moved two to the left or right, you just castled, so, move the
+        # castle. If this happens without the move actually having been allowed,
+        # you will get some weird results, but, you were warned.
+        if move.x == -2:
+            self.game.piece_at_position((0, self.position.y)).position = \
+                DiscreteVector(3, self.position.y)
+        if move.x == 2:
+            self.game.piece_at_position((7, self.position.y)).position = \
+                DiscreteVector(5, self.position.y)
 
 
     def get_specifically_valid_moves(self, base_moves):
