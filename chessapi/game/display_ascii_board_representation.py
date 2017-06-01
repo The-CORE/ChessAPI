@@ -7,7 +7,7 @@ def display_ascii_board_representation(self):
         for column in range(0, BOARD_WIDTH):
             piece = self.piece_at_position((column, row))
             if piece is not None:
-                row_text += piece.colour[0].upper() + piece.symbol + ' '
+                row_text += str(piece) + ' '
             else:
                 row_text += '++ '
         print(row_text)

@@ -31,3 +31,6 @@ class Game:
     from .is_in_checkmate import is_in_checkmate
     from .colour_has_no_moves import colour_has_no_moves
     from .is_in_stalemate import is_in_stalemate
+    from .get_json_from_board import get_json_from_board
+    from .build_board_from_json import build_board_from_json
+    from .__eq__ import __eq__

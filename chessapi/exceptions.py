@@ -32,3 +32,7 @@ class TwoKingsWithSameColourOnBoardError(ChessAPIError):
 
 class NoKingOnBoard(ChessAPIError):
     pass
+
+
+class InvalidJsonError(ChessAPIError):
+    pass
