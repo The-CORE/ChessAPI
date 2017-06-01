@@ -15,7 +15,7 @@ class TestJson(unittest.TestCase):
         second_game.build_board_from_json(json_representation)
         second_game.colour_for_next_turn = chessapi.BLACK
 
-        first_game.display_ascii_board_representation()
-        second_game.display_ascii_board_representation()
-
-        self.assertEqual(first_game, second_game)
+        self.assertEqual(
+            first_game.piece_at_position((2, 2)),
+            second_game.piece_at_position((2, 2))
+        )

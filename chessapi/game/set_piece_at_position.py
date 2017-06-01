@@ -11,22 +11,9 @@ def set_piece_at_position(self, position, piece_to_add):
     if not isinstance(piece_to_add, Piece) and piece_to_add is not None:
         raise TypeError('piece_to_add must be None or an instance of Piece')
 
-    pieces_to_remove = []
-
     for piece in self.pieces:
-        print('here', piece in self.pieces)
         if piece.position == position:
-            print('there', piece in self.pieces)
-            # pieces_to_remove.append(piece)
             self.pieces.remove(piece)
-            break
-
-    # print(self.pieces)
-    self.display_ascii_board_representation()
-    # print(repr(self.piece_at_position((0, 0))))
-    # for piece in pieces_to_remove:
-    #     print(piece in self.pieces)
-    #     self.pieces.remove(piece)
-
+            
     if piece_to_add is not None:
-        self.pieces.add(piece_to_add)
+        self.pieces.append(piece_to_add)

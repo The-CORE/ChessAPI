@@ -141,24 +141,10 @@ class Piece:
         return self.colour[0].upper() + self.symbol
 
 
-    def __repr__(self):
-        return '{}({}, {}, chessapi.Game())'.format(
-            type(self),
-            self.position,
-            self.colour
-        )
-
-
-    def __hash__(self):
-        return hash(repr(self))
-
-
     def __eq__(self, object_to_compare_to):
         """
         Two pieces are considered equal providing they are the same type and
-        colour and are in the same position, their game is not considered. Note
-        that this is why the repr, and hence hash method goes not include the
-        actual game.
+        colour and are in the same position, their game is not considered.
         """
 
         if not isinstance(object_to_compare_to, Piece):
