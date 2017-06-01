@@ -10,7 +10,6 @@ class Piece:
     def __init__(self, position, colour, game):
         position = iterable_to_discrete_vector(position)
         if not isinstance(position, DiscreteVector):
-            print(position)
             raise TypeError(
                 'position must be a DiscreteVector or an iterable containing '
                 'two integers'

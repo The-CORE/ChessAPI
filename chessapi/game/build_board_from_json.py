@@ -40,8 +40,6 @@ def build_board_from_json(self, json_string_representation):
             except KeyError:
                 raise InvalidJsonError('incorrect key mappings')
 
-            print(str(piece_representation), piece_representation is None)
-
             position = (x_coordinate, y_coordinate)
 
             if piece_representation == 'None':
