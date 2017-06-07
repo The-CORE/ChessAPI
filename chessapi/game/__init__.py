@@ -33,4 +33,4 @@ class Game:
     from .is_in_stalemate import is_in_stalemate
     from .get_json_from_board import get_json_from_board
     from .build_board_from_json import build_board_from_json
-    from .get_colour_moves_json import get_colour_moves_json
+    from .get_colour_moves import get_colour_moves
