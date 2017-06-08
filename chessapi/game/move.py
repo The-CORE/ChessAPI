@@ -25,7 +25,7 @@ def move(
     ):
         raise TypeError(
             'position_to_move_to and position_to_move_from must be '
-            'DiscreteVector instances'
+            'DiscreteVector instances or iterables containing two integers'
         )
 
     # Check that there is a piece at the position_to_move_from.
