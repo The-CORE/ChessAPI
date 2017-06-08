@@ -132,7 +132,9 @@ class Piece:
                 'move must be a DiscreteVector or an iterable with two items '
                 'in it'
             )
-
+        # Remove any pieces at the position being moved to.
+        self.game.set_piece_at_position(self.position + move, None)
+        # Update piece position.
         self.position += move
 
 
