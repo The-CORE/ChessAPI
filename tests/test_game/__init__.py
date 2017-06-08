@@ -20,6 +20,7 @@ class TestGame(unittest.TestCase):
     from .checkmate import test_white_in_checkmate_check, \
         test_black_in_checkmate_check
     from .stalemate import test_stalemate_check
+    from .taking import test_taking
 
     def setUp(self):
         self.player_1 = chessapi.Player(chessapi.WHITE)
