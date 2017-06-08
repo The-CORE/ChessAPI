@@ -24,11 +24,17 @@ class Pawn(Piece):
     symbol = 'P'
 
     def get_specifically_valid_moves(self, base_moves):
-        """
-        This will add the diagonal attack moves if there are pieces to take
-        there.
-        """
         valid_moves = base_moves.copy()
+
+        # Remove any moves that would take a piece, as the only moves in valid
+        # moves so far are those that move directly forward, and pawns cannot
+        # take with these moves.
+        for move in base_moves:
+            final_position = self.position + move
+            if self.game.piece_at_position(final_position) is not None:
+                valid_moves.remove(move)
+
+        # Add the diagonal attack moves if there are pieces to take there.
         move_y_coordinate = 1 if self.colour == WHITE else -1
         for move_x_coordinate in (1, -1):
             move = DiscreteVector(move_x_coordinate, move_y_coordinate)
@@ -37,6 +43,7 @@ class Pawn(Piece):
                 valid_moves.append(
                     DiscreteVector(move_x_coordinate, move_y_coordinate)
                 )
+                
         return valid_moves
 
     def make_move(self, move):

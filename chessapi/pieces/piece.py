@@ -38,7 +38,7 @@ class Piece:
         piece that is there has a different colour than this piece there are no
         pieces in the way (or it is a knight) and the move does put the player
         making it in check, this will say it is valid, otherwise, it will say it
-        is not. If ignore check is true this will not stop a player from moving
+        is not. If ignore_check is true this will not stop a player from moving
         into check. You probably don't want to set it to true.
         """
         valid_moves = []
