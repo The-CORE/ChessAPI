@@ -28,10 +28,18 @@ class Pawn(Piece):
 
         # Remove any moves that would take a piece, as the only moves in valid
         # moves so far are those that move directly forward, and pawns cannot
-        # take with these moves.
+        # take with these moves. Also remove the two square move if the pawn is
+        # not on the starting square.
         for move in base_moves:
             final_position = self.position + move
             if self.game.piece_at_position(final_position) is not None:
+                valid_moves.remove(move)
+                continue
+
+            game_starting_position_y = 1 if self.colour == WHITE else 6
+            if abs(move.y) == 2 and self.position.y != game_starting_position_y:
+                # If this is a two square move but this piece isn't at the
+                # starting square...
                 valid_moves.remove(move)
 
         # Add the diagonal attack moves if there are pieces to take there.
@@ -43,7 +51,7 @@ class Pawn(Piece):
                 valid_moves.append(
                     DiscreteVector(move_x_coordinate, move_y_coordinate)
                 )
-                
+
         return valid_moves
 
     def make_move(self, move):
